@@ -2,21 +2,45 @@
   <div class="input-group">
     <div>
       <label>Initial investment</label>
-      <input type="number" min="1" step="1" [(ngModel)]="initialInvestment" />
+      <input
+        name="initialInvestment"
+        type="number"
+        min="1"
+        step="1"
+        [(ngModel)]="initialInvestment"
+      />
     </div>
     <div>
       <label>Annual investment</label>
-      <input type="number" min="1" step="1" [(ngModel)]="annualInvestment" />
+      <input
+        name="annualInvestment"
+        type="number"
+        min="1"
+        step="1"
+        [(ngModel)]="annualInvestment"
+      />
     </div>
   </div>
   <div class="input-group">
     <div>
       <label>Expected return</label>
-      <input type="number" min="1" step="1" [(ngModel)]="expectedReturn" />
+      <input
+        name="expectedReturn"
+        type="number"
+        min="1"
+        step="1"
+        [(ngModel)]="expectedReturn"
+      />
     </div>
     <div>
       <label>Duration</label>
-      <input type="number" min="1" step="1" [(ngModel)]="duration" />
+      <input
+        name="duration"
+        type="number"
+        min="1"
+        step="1"
+        [(ngModel)]="duration"
+      />
     </div>
   </div>
   <button type="submit">Calculate</button>
