@@ -15,7 +15,8 @@ import {
 })
 export class ServerStatusComponent implements OnInit, OnDestroy {
   currentStatus: 'online' | 'offline' | 'unknown' = 'online';
-  private interval?: NodeJS.Timeout;
+  // private interval?: NodeJS.Timeout;
+  private interval?: ReturnType<typeof setInterval>;
 
   // private destroyRef = inject(DestroyRef); ---> forma mas nueva de hacer el cleanup
 
