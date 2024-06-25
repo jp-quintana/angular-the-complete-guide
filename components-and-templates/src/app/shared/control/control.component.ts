@@ -1,5 +1,6 @@
 import {
   Component,
+  ContentChild,
   ElementRef,
   HostListener,
   inject,
@@ -25,6 +26,7 @@ export class ControlComponent {
   //   console.log('clicked')
   // } <-- discouraged
   @Input({ required: true }) label!: string;
+  // @ContentChild('input') private control;
 
   private el = inject(ElementRef);
 
