@@ -26,11 +26,12 @@ export class ControlComponent {
   //   console.log('clicked')
   // } <-- discouraged
   @Input({ required: true }) label!: string;
-  // @ContentChild('input') private control;
+  @ContentChild('input') private control;
 
   private el = inject(ElementRef);
 
   onClick() {
+    console.log(this.control);
     console.log('clicked');
     console.log(this.el.nativeElement);
   }
