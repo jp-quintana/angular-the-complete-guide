@@ -1,9 +1,11 @@
 import {
   Component,
   DestroyRef,
+  effect,
   inject,
   OnDestroy,
   OnInit,
+  signal,
 } from '@angular/core';
 
 @Component({
@@ -14,11 +16,17 @@ import {
   styleUrl: './server-status.component.css',
 })
 export class ServerStatusComponent implements OnInit, OnDestroy {
-  currentStatus: 'online' | 'offline' | 'unknown' = 'online';
+  currentStatus = signal<'online' | 'offline' | 'unknown'>('online');
   // private interval?: NodeJS.Timeout;
   private interval?: ReturnType<typeof setInterval>;
 
   // private destroyRef = inject(DestroyRef); ---> forma mas nueva de hacer el cleanup
+
+  constructor() {
+    effect(() => {
+      console.log(this.currentStatus());
+    });
+  }
 
   ngOnInit() {
     // corre una vez inicializado el componente, es decir tiene acceso a los inputs por ejemplo a diferencia de constructor()
@@ -27,11 +35,11 @@ export class ServerStatusComponent implements OnInit, OnDestroy {
       const rnd = Math.random();
 
       if (rnd < 0.5) {
-        this.currentStatus = 'online';
+        this.currentStatus.set('online');
       } else if (rnd < 0.9) {
-        this.currentStatus = 'offline';
+        this.currentStatus.set('offline');
       } else {
-        this.currentStatus = 'unknown';
+        this.currentStatus.set('unknown');
       }
     }, 5000);
 

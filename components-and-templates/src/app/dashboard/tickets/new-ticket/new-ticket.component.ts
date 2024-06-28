@@ -2,7 +2,9 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { ButtonComponent } from '../../../shared/button/button.component';
@@ -19,6 +21,8 @@ import { FormsModule } from '@angular/forms';
 export class NewTicketComponent implements OnInit, AfterViewInit {
   @ViewChild('form') private form!: ElementRef<HTMLFormElement>;
   // private form = viewChild('form'); ---> nuevo y es la variacion signal
+  @Output() add = new EventEmitter<{ title: string; text: string }>();
+  // add = output<{title: string, text: string}>
 
   ngOnInit(): void {
     console.log('ON INIT');
@@ -28,8 +32,8 @@ export class NewTicketComponent implements OnInit, AfterViewInit {
     console.log('AFTER VIEW INIT');
   }
 
-  onSubmit(title: string, ticketText: String) {
-    console.log(title, ticketText);
+  onSubmit(title: string, ticketText: string) {
+    this.add.emit({ title, text: ticketText });
     this.form.nativeElement.reset();
   }
 }
