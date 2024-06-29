@@ -9,6 +9,7 @@ import { Ticket } from '../tickets.model';
   styleUrl: './ticket.component.css',
 })
 export class TicketComponent {
+  // @Input({})...
   data = input.required<Ticket>();
   detailsVisible = signal(false);
   close = output();
