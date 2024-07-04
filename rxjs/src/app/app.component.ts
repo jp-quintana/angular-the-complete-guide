@@ -29,7 +29,20 @@ export class AppComponent implements OnInit {
 
   doubleInterval = computed(() => this.interval() * 2);
 
-  customInterval$ = new Observable((subscriber) => {});
+  customInterval$ = new Observable((subscriber) => {
+    // subscriber.error()
+    let timesExecuted = 0;
+    const interval = setInterval(() => {
+      if (timesExecuted > 3) {
+        clearInterval(interval);
+        subscriber.complete();
+        return;
+      }
+      console.log('Emitting new value...');
+      subscriber.next({ message: 'New value' });
+      timesExecuted++;
+    }, 2000);
+  });
 
   constructor() {
     // effect(() => {
@@ -46,6 +59,11 @@ export class AppComponent implements OnInit {
     //   .subscribe({
     //     next: (val) => console.log(val),
     //   });
+
+    this.customInterval$.subscribe({
+      next: (val) => console.log(val),
+      complete: () => console.log('COMPLETED!'),
+    });
 
     const subscription = this.clickCount$.subscribe({
       next: (_val) => console.log(`Clicked button ${this.clickCount()} times.`),
