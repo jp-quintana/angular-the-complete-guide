@@ -35,13 +35,13 @@ export class UserPlacesComponent implements OnInit {
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-  // onSelectPlace(selectedPlace: Place) {
-  //   const subscription = this.placesService
-  //     .addPlaceToUserPlaces(selectedPlace.id)
-  //     .subscribe({
-  //       next: (resData) => console.log(resData),
-  //     });
+  onSelectPlace(selectedPlace: Place) {
+    const subscription = this.placesService
+      .removeUserPlace(selectedPlace)
+      .subscribe({
+        next: (resData) => console.log(resData),
+      });
 
-  //   this.destroyRef.onDestroy(() => subscription.unsubscribe());
-  // }
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  }
 }

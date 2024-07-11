@@ -3,11 +3,13 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Place } from './place.model';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, tap, throwError } from 'rxjs';
+import { ErrorService } from '../shared/error.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlacesService {
+  private errorService = inject(ErrorService);
   httpClient = inject(HttpClient);
 
   private userPlaces = signal<Place[]>([]);
@@ -47,12 +49,32 @@ export class PlacesService {
         catchError((error) => {
           console.log(error);
           this.userPlaces.set(prevPlaces);
-          return throwError(() => new Error('Failed to store selected place.'));
+          const errorMessage = 'Failed to store selected place.';
+          this.errorService.showError(errorMessage);
+          return throwError(() => new Error(errorMessage));
         })
       );
   }
 
-  removeUserPlace(place: Place) {}
+  removeUserPlace(place: Place) {
+    const prevPlaces = this.userPlaces();
+
+    if (prevPlaces.some((p) => p.id === place.id)) {
+      this.userPlaces.set(prevPlaces.filter((p) => p.id !== place.id));
+    }
+
+    return this.httpClient
+      .delete(`http://localhost:3000/user-places/${place.id}`)
+      .pipe(
+        catchError((error) => {
+          console.log(error);
+          this.userPlaces.set(prevPlaces);
+          const errorMessage = 'Failed to delete selected place.';
+          this.errorService.showError(errorMessage);
+          return throwError(() => new Error(errorMessage));
+        })
+      );
+  }
 
   private fetchPlaces(url: string, errorMessage: string) {
     return (
