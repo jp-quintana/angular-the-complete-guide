@@ -7,12 +7,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { UsersService } from '../users.service';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-user-tasks',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './user-tasks.component.html',
   styleUrl: './user-tasks.component.css',
 })
@@ -33,6 +33,10 @@ export class UserTasksComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   ngOnInit() {
+    // no reactive, no corre devuelta si cambia el userId
+    console.log(this.activatedRoute.snapshot.paramMap.get('userId'));
+
+    // reactive
     const subscription = this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
         this.username =
